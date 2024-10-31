@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Check for sudo access
+if [ "$EUID" -ne 0 ]; then
+    echo "This script requires sudo privileges. Please run it with sudo:"
+    echo "sudo $0"
+    exit 1
+fi
+
 # Set CPU governor to 'performance' for 4 CPUs
 echo "Setting CPU governor to 'performance' for all 4 CPUs..."
 
@@ -19,4 +26,3 @@ for cpu in /sys/devices/system/cpu/cpu[0-3]; do
         echo "$cpu governor: $(cat $governor_path)"
     fi
 done
-
